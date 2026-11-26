@@ -91,6 +91,8 @@
 
   .tabs-wrapper { padding: 12px 16px 0 16px; flex-shrink: 0; }
   .tabs { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--segmented-bg); padding: 4px; border-radius: 11px; gap: 3px; border: 1px solid var(--border); }
+  #ets-tabs-wrapper .tabs { grid-template-columns: repeat(5, 1fr); }
+  #ets-tabs-wrapper .tab-btn { padding: 7px 4px; font-size: 11px; }
   .tab-btn { padding: 7px 6px; background: transparent; color: var(--text-muted); border: 1px solid transparent; border-radius: 8px; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all 0.18s ease; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tab-btn:hover:not(.active) { color: var(--text-main); background: rgba(255,255,255,0.03); }
   .tab-btn.active { background: var(--segmented-active); color: var(--text-main); border-color: var(--border); box-shadow: var(--shadow-switch); }
@@ -120,6 +122,7 @@
   .icon-green { background: linear-gradient(135deg, #34d399 0%, #059669 100%); color: white; } 
   .icon-purple { background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%); color: white; } 
   .icon-orange { background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%); color: white; }
+  .icon-cruise { background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%); color: white; }
   
   .section-title { font-size: 13.5px; font-weight: 700; color: var(--text-main); letter-spacing: 0.1px; }
   .section-subtitle { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
@@ -339,6 +342,8 @@
           <button class="tab-btn" onclick="switchMainTab('ets-zincir', this)">🏢 Zincir Otel</button>
           <button class="tab-btn" onclick="switchMainTab('ets-etkinlik-tekli', this)">🎤 Tek Etk.</button>
           <button class="tab-btn" onclick="switchMainTab('ets-etkinlik-coklu', this)">🎤 Çoklu Etk.</button>
+          <button class="tab-btn" onclick="switchMainTab('ets-cruise-tekli', this)">🚢 Tek Cruise</button>
+          <button class="tab-btn" onclick="switchMainTab('ets-cruise-coklu', this)">🚢 Çoklu Cruise</button>
         </div>
     </div>
 
@@ -652,6 +657,128 @@
               <div id="list-etkinlik-coklu"></div>
               <button class="btn-action" onclick="addCard('etkinlik-coklu')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg> Yeni Etkinlik Kartı Ekle</button>
             </div>
+
+            <div id="form-ets-cruise-tekli" class="tab-content">
+              <div class="section">
+                <div class="section-header"><div class="section-header-left"><div class="section-icon icon-red">⚙️</div><div><div class="section-title">Cruise Kampanya &amp; UTM Ayarları</div><div class="section-subtitle">Link takibi için gönderim tarihi ve kampanya adı</div></div></div></div>
+                <div class="field-group">
+                  <div class="row2">
+                    <div class="field"><div class="field-header"><span class="field-label">Gönderim Tarihi</span></div><input type="text" id="ct-date" value="26-11-2026" data-date-helper="true"></div>
+                    <div class="field"><div class="field-header"><span class="field-label">Kampanya Adı (UTM)</span></div><input type="text" id="ct-camp" value="Sapphire-Princess-Guneydogu-Asya" data-slug-helper="true"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="section-header"><div class="section-header-left"><div class="section-icon icon-cruise">🚢</div><div><div class="section-title">Tekli Gemi / Cruise Tur Kartı</div><div class="section-subtitle">Gemi, rota, tarih, süre, döviz fiyatı ve öne çıkan hizmetler</div></div></div></div>
+                <div class="field-group">
+                  <div class="group-title">Tur &amp; Gemi Temel Bilgileri</div>
+                  <div class="field">
+                    <div class="field-header"><span class="field-label">Tur Adı</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-isim" checked="checked" onchange="generateLiveCode()"></label></div></div>
+                    <input type="text" id="ct-isim" value="Sapphire Princess ile Yılbaşı'nda Singapur'dan Güneydoğu Asya">
+                  </div>
+                  <div class="row2">
+                    <div class="field"><div class="field-header"><span class="field-label">Gemi Adı</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-gemi" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="ct-gemi" value="Sapphire Princess"></div>
+                    <div class="field"><div class="field-header"><span class="field-label">Kalkış &amp; Ulaşım</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-kalkis" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="ct-kalkis" value="İstanbul Çıkışlı • Uçak Dahil"></div>
+                  </div>
+                  <div class="row3">
+                    <div class="field"><div class="field-header"><span class="field-label">Tur Tarihi</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-tarih" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="ct-tarih" value="25 Ara'26 - 09 Oca'27"></div>
+                    <div class="field"><div class="field-header"><span class="field-label">Süre</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-sure" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="ct-sure" value="15 Gece 16 Gün"></div>
+                    <div class="field"><div class="field-header"><span class="field-label">Konsept</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-kons" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="ct-kons" value="Gemide Tam Pansiyon"></div>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <div class="group-title"><span>Güzergah / Rota (Limanlar)</span> <div class="switch-wrapper"><span class="switch-label">GÖSTER</span><label class="lock-toggle"><input type="checkbox" id="show-ct-rota" checked="checked" onchange="generateLiveCode()"></label></div></div>
+                  <div class="field">
+                    <input type="text" id="ct-rota" value="Singapur • Koh Samui • Ho Chi Minh • Penang • Phuket • Langkawi • Kuala Lumpur" placeholder="Örn: Singapur • Koh Samui • Phuket • Langkawi">
+                  </div>
+                </div>
+                <div class="field-group">
+                  <div class="group-title"><span>Öne Çıkan Özellikler / Dahil Hizmetler (Maks. 3)</span> <div class="switch-wrapper"><span class="switch-label">GÖSTER</span><label class="lock-toggle"><input type="checkbox" id="show-ct-oz" checked="checked" onchange="generateLiveCode()"></label></div></div>
+                  <div class="row3">
+                    <div class="field"><input type="text" id="ct-oz1" value="Kolay Vizeli" placeholder="Örn: Vizesiz / Kolay Vizeli"></div>
+                    <div class="field"><input type="text" id="ct-oz2" value="Türkçe Rehberli Tur" placeholder="Örn: Türkçe Rehberli"></div>
+                    <div class="field"><input type="text" id="ct-oz3" value="Liman Vergileri Dahil" placeholder="Örn: Uçuş &amp; Transfer Dahil"></div>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <div class="group-title">Fiyatlandırma, Para Birimi &amp; Kampanya Rozeti</div>
+                  <div class="row4">
+                    <div class="field"><div class="field-header"><span class="field-label">Mod</span></div>
+                      <select id="ct-fiyat-tipi" onchange="generateLiveCode()">
+                        <option value="fiyat" selected="selected">Net Fiyat</option>
+                        <option value="indirim">İndirim</option>
+                        <option value="gizle">Gizle</option>
+                      </select>
+                    </div>
+                    <div class="field"><div class="field-header"><span class="field-label">Birim</span></div>
+                      <select id="ct-currency" onchange="generateLiveCode()">
+                        <option value="EUR" selected="selected">EUR (€)</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="TL">TL (₺)</option>
+                      </select>
+                    </div>
+                    <div class="field"><div class="field-header"><span class="field-label">Değer</span></div><input type="text" id="ct-fiyat" value="2.999" placeholder="Örn: 2.999 / %50"></div>
+                    <div class="field"><div class="field-header"><span class="field-label">Ek Metin</span></div><input type="text" id="ct-fiyat-ek" value="'dan itibaren" placeholder="Örn: 'dan itibaren"></div>
+                  </div>
+                  <div class="row2" style="margin-top:8px;">
+                    <div class="field">
+                      <div class="field-header"><span class="field-label">Fiyat Alt Notu / TL Karşılığı</span><div class="switch-wrapper"><span class="switch-label">GÖS.</span><label class="lock-toggle"><input type="checkbox" id="show-ct-fiyat-not" checked="checked" onchange="generateLiveCode()"></label></div></div>
+                      <input type="text" id="ct-fiyat-not" value="İki kişilik kabinde kişi başı" placeholder="Örn: İki kişilik kabinde kişi başı">
+                    </div>
+                    <div class="field">
+                      <div class="field-header"><span class="field-label">Kampanya Rozeti</span><div class="switch-wrapper"><span class="switch-label">GÖS.</span><label class="lock-toggle"><input type="checkbox" id="show-ct-badge" checked="checked" onchange="generateLiveCode()"></label></div></div>
+                      <input type="text" id="ct-badge" value="YILBAŞI CRUISE FIRSATI" placeholder="Örn: 2. KİŞİYE %50 İNDİRİM">
+                    </div>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <div class="group-title">Görsel &amp; Metin İçeriği</div>
+                  <div class="field">
+                    <div class="field-header"><span class="field-label">Cruise / Gemi Ana Görseli (URL)</span><div class="switch-wrapper"><span class="switch-label">GÖS.</span><label class="lock-toggle"><input type="checkbox" id="show-ct-img" checked="checked" onchange="generateLiveCode()"></label></div></div>
+                    <input type="text" id="ct-img" value="https://images.etstur.com/imgproxy/resize/2560x1440/files/images/hotelImages/etsrooms/606/Kefaluka_Resort_20251009111805_2.jpg" placeholder="Gemi veya rota görsel URL'sini yapıştırın">
+                  </div>
+                  <div class="field"><div class="field-header"><span class="field-label">İçerik Başlığı</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-baslik" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="ct-baslik" value="YENİ YILI DENİZLERDE KARŞILAMAYA HAZIR MISIN?"></div>
+                  <div class="field"><div class="field-header"><span class="field-label">Açıklama Metni</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-ct-metin" checked="checked" onchange="generateLiveCode()"></label></div></div><textarea id="ct-metin" data-rich="true">Sapphire Princess'in ayrıcalıklı dünyasıyla Singapur'dan yola çıkıp Tayland, Vietnam ve Malezya'nın büyüleyici limanlarını keşfet! 15 gece 16 gün sürecek bu eşsiz yılbaşı yolculuğunda yerini ETS güvencesiyle hemen ayırt, Maximum Kart'a özel avantajları kaçırma.</textarea></div>
+                  <div class="row2">
+                    <div class="field"><div class="field-header"><span class="field-label">Yönlendirme URL (Tur Linki)</span></div><input type="text" id="ct-url" value="https://www.etstur.com/Yurtdisi-Tatil-Turlari-Sapphire-Princess-ile-Yilbasinda-Singapurdan-Guneydogu-Asya"></div>
+                    <div class="field"><div class="field-header"><span class="field-label">Buton Metni</span><div class="switch-wrapper"><span class="switch-label">GÖS.</span><label class="lock-toggle"><input type="checkbox" id="show-ct-btn" checked="checked" onchange="generateLiveCode()"></label><span class="switch-label" style="margin-left:6px;">SABİT</span><label class="lock-toggle"><input type="checkbox" id="sabit-ct-btn" checked="checked" onchange="toggleSabit('ct-btn', this.checked)"></label></div></div><input type="text" id="ct-btn" value="TURU İNCELE" disabled="disabled"></div>
+                  </div>
+                </div>
+                <div class="field-group">
+                   <div class="group-title"><span>Özel Alt Kampanya Bannerı (Masaüstü &amp; Mobil)</span> <div class="switch-wrapper"><span class="switch-label">GÖSTER</span><label class="lock-toggle"><input type="checkbox" id="show-ct-banner" onchange="generateLiveCode()"></label></div></div>
+                   <div class="row2">
+                     <div class="field"><div class="field-header"><span class="field-label">Masaüstü Görsel URL</span></div><input type="text" id="ct-img-desk" value="https://img.euromsg.net/66FE9E36908F4D2387A88FFE5F980D89/images/2026-3/altbant-syf.jpg"></div>
+                     <div class="field"><div class="field-header"><span class="field-label">Mobil Görsel URL</span></div><input type="text" id="ct-img-mob" value="https://img.euromsg.net/66FE9E36908F4D2387A88FFE5F980D89/images/2026-3/altbant-syf-mobil.jpg"></div>
+                   </div>
+                   <div class="field"><div class="field-header"><span class="field-label">Banner Yönlendirme Linki</span></div><input type="text" id="ct-img-url" value="https://www.etstur.com/Cruise-Gemi-Turlari"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="form-ets-cruise-coklu" class="tab-content">
+              <div class="section">
+                <div class="section-header"><div class="section-header-left"><div class="section-icon icon-cruise">🚢</div><div><div class="section-title">Çoklu Cruise Kampanya Ayarları</div><div class="section-subtitle">Birden fazla gemi turunu 2'li grid kartlar halinde sunun</div></div></div></div>
+                <div class="field-group">
+                  <div class="row2"><div class="field"><div class="field-header"><span class="field-label">Gönderim Tarihi</span></div><input type="text" id="cc-date" value="26-11-2026" data-date-helper="true"></div><div class="field"><div class="field-header"><span class="field-label">Kampanya Adı (UTM)</span></div><input type="text" id="cc-camp" value="Cruise-Gemi-Turlari" data-slug-helper="true"></div></div>
+                  <div class="field"><div class="field-header"><span class="field-label">Ana Başlık</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-cc-baslik" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="cc-baslik" value="DENİZLERDE UNUTULMAZ ROTALAR SENİ BEKLİYOR!"></div>
+                  <div class="field"><div class="field-header"><span class="field-label">Ana Açıklama Metni</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" id="show-cc-metin" checked="checked" onchange="generateLiveCode()"></label></div></div><textarea id="cc-metin" data-rich="true">Dünyanın en seçkin gemileriyle vizesiz, kolay vizeli ve yılbaşına özel cruise turlarını senin için derledik.</textarea></div>
+                  <div class="row2" style="margin-top:8px;">
+                    <div class="field"><div class="field-header"><span class="field-label">Alt "Tüm Turlar" Linki</span></div><input type="text" id="cc-all-url" value="https://www.etstur.com/Cruise-Gemi-Turlari"></div>
+                    <div class="field"><div class="field-header"><span class="field-label">Alt Buton Metni</span><div class="switch-wrapper"><span class="switch-label">GÖS.</span><label class="lock-toggle"><input type="checkbox" id="show-cc-all-btn" checked="checked" onchange="generateLiveCode()"></label></div></div><input type="text" id="cc-all-btn" value="TÜM CRUISE TURLARINI İNCELE"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-toolbar">
+                <span>🚢 <strong>Cruise Tur Kartları Listesi</strong> (Yan yana 2'li dizilir)</span>
+                <div class="list-toolbar-actions">
+                  <button class="mini-tool-btn" onclick="toggleAllCards('cruise-coklu', false)">Tümünü Aç</button>
+                  <button class="mini-tool-btn" onclick="toggleAllCards('cruise-coklu', true)">Daralt</button>
+                </div>
+              </div>
+              <div id="list-cruise-coklu"></div>
+              <button class="btn-action" onclick="addCard('cruise-coklu')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg> Yeni Cruise Tur Kartı Ekle</button>
+            </div>
+
         </div>
 
         <!-- ================= UCUZABILET WORKSPACE ================= -->
@@ -887,7 +1014,9 @@ function getActiveCampaignInfo() {
         'ets-bolge-coklu': { dateId: 'bc-date', campId: 'bc-camp' },
         'ets-zincir': { dateId: 'z-date', campId: 'z-camp' },
         'ets-etkinlik-tekli': { dateId: 'et-date', campId: 'et-camp' },
-        'ets-etkinlik-coklu': { dateId: 'ec-date', campId: 'ec-camp' }
+        'ets-etkinlik-coklu': { dateId: 'ec-date', campId: 'ec-camp' },
+        'ets-cruise-tekli': { dateId: 'ct-date', campId: 'ct-camp' },
+        'ets-cruise-coklu': { dateId: 'cc-date', campId: 'cc-camp' }
     };
     const info = map[currentModeETS] || map['ets-otel-tekli'];
     return { date: v(info.dateId), camp: v(info.campId), dateId: info.dateId, campId: info.campId };
@@ -1097,7 +1226,7 @@ function getStateObject() {
       else state.staticFields[el.id] = el.value;
   });
   
-  ['otel-coklu', 'bolge-coklu', 'zincir', 'etkinlik-coklu', 'ub-rotalar'].forEach(type => {
+  ['otel-coklu', 'bolge-coklu', 'zincir', 'etkinlik-coklu', 'cruise-coklu', 'ub-rotalar'].forEach(type => {
       const container = $('list-' + type);
       if(container) {
           // Kaydetmeden önce sonradan enjekte edilen thumbnail/butonları temiz bir klon üzerinden al
@@ -1435,6 +1564,32 @@ window.onload = () => {
       addCard('etkinlik-coklu', 'TARKAN', '', '15 Ağustos 2026', 'Sueno Hotels Deluxe Belek', '', '', '', "", 'https://www.etstur.com/Sueno-Hotels-Deluxe-Belek');
       addCard('etkinlik-coklu', 'EBRU GÜNDEŞ', '', '22 Ağustos 2026', 'Kaya Palazzo Golf Resort', '', '', '', "", 'https://www.etstur.com/Kaya-Palazzo-Golf-Resort');
   }
+  if ($('list-cruise-coklu') && $('list-cruise-coklu').children.length === 0) {
+      addCruiseCard({
+        baslik: "Sapphire Princess ile Yılbaşı'nda Güneydoğu Asya",
+        gemi: 'Sapphire Princess',
+        tarih: "25 Ara'26 - 09 Oca'27",
+        sure: '15 Gece 16 Gün',
+        rota: 'Singapur, Koh Samui, Ho Chi Minh, Penang, Phuket, Langkawi, Kuala Lumpur',
+        alt: 'İstanbul Çıkışlı • Tam Pansiyon',
+        oz1: 'Kolay Vizeli', oz2: 'Türkçe Rehberli', oz3: 'Uçuş Dahil',
+        currency: 'EUR', fiyat: '2.999', fiyatEk: "'dan itibaren",
+        badge: 'YILBAŞI ÖZEL', showBadge: true,
+        url: 'https://www.etstur.com/Yurtdisi-Tatil-Turlari-Sapphire-Princess-ile-Yilbasinda-Singapurdan-Guneydogu-Asya'
+      });
+      addCruiseCard({
+        baslik: 'MSC Orchestra ile Ege ve Adriyatik',
+        gemi: 'MSC Orchestra',
+        tarih: 'Mayıs - Ekim 2026',
+        sure: '7 Gece 8 Gün',
+        rota: 'İzmir, Atina, Korfu, Bari, Kotor, Mikonos, İzmir',
+        alt: 'Türkiye Çıkışlı • Tam Pansiyon',
+        oz1: 'Online Rezervasyon', oz2: 'Türkçe Rehberli', oz3: 'Liman Vergileri Dahil',
+        currency: 'EUR', fiyat: '1.149', fiyatEk: "'dan itibaren",
+        badge: '2. KİŞİYE %50', showBadge: true,
+        url: 'https://www.etstur.com/Cruise-Gemi-Turlari'
+      });
+  }
   if ($('list-ub-rotalar') && $('list-ub-rotalar').children.length === 0) {
       addCard('ub-rotalar', 'İstanbul ✈ Roma', 'Direkt Uçuş', 'Gidiş-Dönüş Fırsatı', '', '', '', '2.490', "TL'den itibaren", 'https://www.ucuzabilet.com/roma-ucak-bileti');
       addCard('ub-rotalar', 'İstanbul ✈ Paris', 'Esnek Bilet', 'Bagaj Dahil Seçenekler', '', '', '', '2.890', "TL'den itibaren", 'https://www.ucuzabilet.com/paris-ucak-bileti');
@@ -1668,7 +1823,57 @@ function buildUTMUB(base, mediumSuffix, campaign) {
 }
 function escLink(s) { return (s || '').replace(/&/g, '&amp;'); }
 
-function addCard(type, baslik='', konum='', alt='', oz1='', oz2='', oz3='', fiyat='', fiyatEk="'den itibaren", defaultUrl='') {
+function addCruiseCard(opts = {}) {
+  return addCard(
+    'cruise-coklu',
+    opts.baslik || '',
+    opts.gemi || '',
+    opts.alt || 'İstanbul Çıkışlı • Tam Pansiyon',
+    opts.oz1 || '',
+    opts.oz2 || '',
+    opts.oz3 || '',
+    opts.fiyat || '',
+    opts.fiyatEk || "'dan itibaren",
+    opts.url || 'https://www.etstur.com/Cruise-Gemi-Turlari',
+    opts
+  );
+}
+
+function ensureDefaultCruiseCards() {
+  if ($('list-cruise-coklu') && $('list-cruise-coklu').children.length === 0) {
+      addCruiseCard({
+        baslik: "Sapphire Princess ile Yılbaşı'nda Güneydoğu Asya",
+        gemi: 'Sapphire Princess',
+        tarih: "25 Ara'26 - 09 Oca'27",
+        sure: '15 Gece 16 Gün',
+        rota: 'Singapur, Koh Samui, Ho Chi Minh, Penang, Phuket, Langkawi, Kuala Lumpur',
+        alt: 'İstanbul Çıkışlı • Tam Pansiyon',
+        oz1: 'Kolay Vizeli', oz2: 'Türkçe Rehberli', oz3: 'Uçuş Dahil',
+        currency: 'EUR', fiyat: '2.999', fiyatEk: "'dan itibaren",
+        badge: 'YILBAŞI ÖZEL', showBadge: true,
+        url: 'https://www.etstur.com/Yurtdisi-Tatil-Turlari-Sapphire-Princess-ile-Yilbasinda-Singapurdan-Guneydogu-Asya'
+      });
+      addCruiseCard({
+        baslik: 'MSC Orchestra ile Ege ve Adriyatik',
+        gemi: 'MSC Orchestra',
+        tarih: 'Mayıs - Ekim 2026',
+        sure: '7 Gece 8 Gün',
+        rota: 'İzmir, Atina, Korfu, Bari, Kotor, Mikonos, İzmir',
+        alt: 'Türkiye Çıkışlı • Tam Pansiyon',
+        oz1: 'Online Rezervasyon', oz2: 'Türkçe Rehberli', oz3: 'Liman Vergileri Dahil',
+        currency: 'EUR', fiyat: '1.149', fiyatEk: "'dan itibaren",
+        badge: '2. KİŞİYE %50', showBadge: true,
+        url: 'https://www.etstur.com/Cruise-Gemi-Turlari'
+      });
+      document.querySelectorAll('#list-cruise-coklu .dynamic-card').forEach(c => c.classList.add('collapsed'));
+  }
+}
+
+function escAttr(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function addCard(type, baslik='', konum='', alt='', oz1='', oz2='', oz3='', fiyat='', fiyatEk="'den itibaren", defaultUrl='', extra={}) {
   const container = $('list-' + type);
   if (!container) return;
   container.querySelectorAll('.dynamic-card:not(.collapsed)').forEach(c => c.classList.add('collapsed'));
@@ -1677,10 +1882,10 @@ function addCard(type, baslik='', konum='', alt='', oz1='', oz2='', oz3='', fiya
   div.className = 'section dynamic-card';
   div.dataset.type = type;
   
-  let headerIcon = type === 'etkinlik-coklu' ? '🎤' : (type === 'ub-rotalar' ? '✈️' : '📑');
-  let iconClass = type === 'etkinlik-coklu' ? 'icon-orange' : (type === 'ub-rotalar' ? 'icon-blue' : 'icon-green');
-  let displayTitle = baslik || 'Yeni Kart';
-  let fallbackUrl = defaultUrl || (type === 'ub-rotalar' ? 'https://www.ucuzabilet.com' : 'https://www.etstur.com');
+  let headerIcon = type === 'etkinlik-coklu' ? '🎤' : (type === 'ub-rotalar' ? '✈️' : (type === 'cruise-coklu' ? '🚢' : '📑'));
+  let iconClass = type === 'etkinlik-coklu' ? 'icon-orange' : (type === 'ub-rotalar' ? 'icon-blue' : (type === 'cruise-coklu' ? 'icon-cruise' : 'icon-green'));
+  let displayTitle = baslik || (type === 'cruise-coklu' ? 'Yeni Cruise Turu' : 'Yeni Kart');
+  let fallbackUrl = defaultUrl || (type === 'ub-rotalar' ? 'https://www.ucuzabilet.com' : (type === 'cruise-coklu' ? 'https://www.etstur.com/Cruise-Gemi-Turlari' : 'https://www.etstur.com'));
 
   let html = `
     <div class="section-header" style="cursor:pointer;" onclick="this.parentElement.classList.toggle('collapsed')">
@@ -1732,35 +1937,72 @@ function addCard(type, baslik='', konum='', alt='', oz1='', oz2='', oz3='', fiya
   } else if (type === 'etkinlik-coklu') {
     html += `
         <div class="row3">
-          <div class="field"><div class="field-header"><span class="field-label">Sanatçı</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-baslik" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-baslik" value="${baslik}"></div>
-          <div class="field"><div class="field-header"><span class="field-label">Tarih</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-alt" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-alt" value="${alt}"></div>
-          <div class="field"><div class="field-header"><span class="field-label">Mekan</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-oz" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-oz1" value="${oz1}"></div>
+          <div class="field"><div class="field-header"><span class="field-label">Sanatçı</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-baslik" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-baslik" value="${escAttr(baslik)}"></div>
+          <div class="field"><div class="field-header"><span class="field-label">Tarih</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-alt" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-alt" value="${escAttr(alt)}"></div>
+          <div class="field"><div class="field-header"><span class="field-label">Mekan</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-oz" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-oz1" value="${escAttr(oz1)}"></div>
+        </div>`;
+  } else if (type === 'cruise-coklu') {
+    const cGemi = extra.gemi !== undefined ? extra.gemi : konum;
+    const cTarih = extra.tarih || '';
+    const cSure = extra.sure || '';
+    const cRota = extra.rota || '';
+    html += `
+        <div class="field"><div class="field-header"><span class="field-label">Tur Adı</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-baslik" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-baslik" value="${escAttr(baslik)}" placeholder="Örn: Sapphire Princess ile Güneydoğu Asya"></div>
+        <div class="row3">
+          <div class="field"><div class="field-header"><span class="field-label">Gemi Adı</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-gemi" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-gemi" value="${escAttr(cGemi)}" placeholder="Örn: Sapphire Princess"></div>
+          <div class="field"><div class="field-header"><span class="field-label">Tarih</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-tarih" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-tarih" value="${escAttr(cTarih)}" placeholder="25 Ara'26 - 09 Oca'27"></div>
+          <div class="field"><div class="field-header"><span class="field-label">Süre</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-sure" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-sure" value="${escAttr(cSure)}" placeholder="15 Gece 16 Gün"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><div class="field-header"><span class="field-label">Rota / Limanlar</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-rota" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-rota" value="${escAttr(cRota)}" placeholder="Singapur, Koh Samui, Phuket..."></div>
+          <div class="field"><div class="field-header"><span class="field-label">Kalkış &amp; Konsept</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-alt" checked onchange="generateLiveCode()"></label></div></div><input type="text" class="c-alt" value="${escAttr(alt)}" placeholder="İstanbul Çıkışlı • Tam Pansiyon"></div>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="group-title"><span>Öne Çıkan Özellikler / Etiketler</span> <div class="switch-wrapper"><span class="switch-label">GÖSTER</span><label class="lock-toggle"><input type="checkbox" class="c-show-oz" checked onchange="generateLiveCode()"></label></div></div>
+        <div class="row3">
+          <div class="field"><input type="text" class="c-oz1" value="${escAttr(oz1)}" placeholder="Örn: Kolay Vizeli"></div>
+          <div class="field"><input type="text" class="c-oz2" value="${escAttr(oz2)}" placeholder="Örn: Türkçe Rehberli"></div>
+          <div class="field"><input type="text" class="c-oz3" value="${escAttr(oz3)}" placeholder="Örn: Uçuş Dahil"></div>
         </div>`;
   }
 
-  let chkPrice = fiyat ? 'fiyat' : 'gizle';
+  let chkPrice = fiyat ? 'fiyat' : (type === 'cruise-coklu' ? 'fiyat' : 'gizle');
+  let curSel = extra.currency || (type === 'cruise-coklu' ? 'EUR' : 'TL');
+  let defaultBtnTxt = type === 'cruise-coklu' ? 'TURU İNCELE' : 'İNCELE';
+  let badgeInit = extra.badge || '';
+  let badgeChecked = extra.showBadge ? 'checked' : '';
+  let defaultCardImg = extra.img || 'https://images.etstur.com/imgproxy/resize/2560x1440/files/images/hotelImages/etsrooms/606/Kefaluka_Resort_20251009111805_2.jpg';
+
   html += `
       </div>
       <div class="field-group">
         <div class="group-title">Fiyat, Etiket &amp; Bağlantı</div>
+        ${type === 'cruise-coklu' ? `
+        <div class="row4">
+          <div class="field"><div class="field-header"><span class="field-label">Mod</span></div><select class="c-fiyat-tipi" onchange="generateLiveCode()"><option value="fiyat" ${chkPrice==='fiyat'?'selected':''}>Net Fiyat</option><option value="indirim">İndirim</option><option value="gizle" ${chkPrice==='gizle'?'selected':''}>Gizle</option></select></div>
+          <div class="field"><div class="field-header"><span class="field-label">Birim</span></div><select class="c-currency" onchange="generateLiveCode()"><option value="EUR" ${curSel==='EUR'?'selected':''}>EUR (€)</option><option value="USD" ${curSel==='USD'?'selected':''}>USD ($)</option><option value="TL" ${curSel==='TL'?'selected':''}>TL (₺)</option></select></div>
+          <div class="field"><div class="field-header"><span class="field-label">Değer</span></div><input type="text" class="c-fiyat" value="${escAttr(fiyat)}"></div>
+          <div class="field"><div class="field-header"><span class="field-label">Ek Metin</span></div><input type="text" class="c-fiyat-ek" value="${escAttr(fiyatEk)}"></div>
+        </div>` : `
         <div class="row3">
           <div class="field"><div class="field-header"><span class="field-label">Fiyat Modu</span></div><select class="c-fiyat-tipi" onchange="generateLiveCode()"><option value="fiyat" ${chkPrice==='fiyat'?'selected':''}>Net Fiyat Göster</option><option value="indirim">İndirim Oranı Göster</option><option value="gizle" ${chkPrice==='gizle'?'selected':''}>Gizle</option></select></div>
-          <div class="field"><div class="field-header"><span class="field-label">Değer</span></div><input type="text" class="c-fiyat" value="${fiyat}"></div>
-          <div class="field"><div class="field-header"><span class="field-label">Ek Metin</span></div><input type="text" class="c-fiyat-ek" value="${fiyatEk}"></div>
-        </div>
+          <div class="field"><div class="field-header"><span class="field-label">Değer</span></div><input type="text" class="c-fiyat" value="${escAttr(fiyat)}"></div>
+          <div class="field"><div class="field-header"><span class="field-label">Ek Metin</span></div><input type="text" class="c-fiyat-ek" value="${escAttr(fiyatEk)}"></div>
+        </div>`}
         <div class="row2">
-          <div class="field"><div class="field-header"><span class="field-label">Yönlendirme URL</span></div><input type="text" class="c-url" value="${fallbackUrl}" placeholder="https://..."></div>
+          <div class="field"><div class="field-header"><span class="field-label">Yönlendirme URL</span></div><input type="text" class="c-url" value="${escAttr(fallbackUrl)}" placeholder="https://..."></div>
           <div class="field">
             <div class="field-header">
               <span class="field-label">Buton &amp; Görsel</span>
               <div class="switch-wrapper"><span class="switch-label">BTN</span><label class="lock-toggle"><input type="checkbox" class="c-show-btn" checked onchange="generateLiveCode()"></label><span class="switch-label" style="margin-left:6px;">GRS</span><label class="lock-toggle"><input type="checkbox" class="c-show-img" checked onchange="generateLiveCode()"></label></div>
             </div>
-            <div style="display:flex;gap:8px;"><input type="text" class="c-btn" value="İNCELE" style="width:95px; flex-shrink:0;"><input type="text" class="c-img" placeholder="Resim URL" value="https://images.etstur.com/imgproxy/resize/2560x1440/files/images/hotelImages/etsrooms/606/Kefaluka_Resort_20251009111805_2.jpg" style="flex:1;"></div>
+            <div style="display:flex;gap:8px;"><input type="text" class="c-btn" value="${defaultBtnTxt}" style="width:105px; flex-shrink:0;"><input type="text" class="c-img" placeholder="Resim URL" value="${escAttr(defaultCardImg)}" style="flex:1;"></div>
           </div>
         </div>
         <div class="field" style="margin-top:8px;">
-          <div class="field-header"><span class="field-label">Üst Etiket / Rozet (Opsiyonel)</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-badge" onchange="generateLiveCode()"></label></div></div>
-          <input type="text" class="c-badge" value="" placeholder="Örn: ERKEN REZERVASYON / SON ODALAR">
+          <div class="field-header"><span class="field-label">Üst Etiket / Rozet (Opsiyonel)</span><div class="switch-wrapper"><label class="lock-toggle"><input type="checkbox" class="c-show-badge" ${badgeChecked} onchange="generateLiveCode()"></label></div></div>
+          <input type="text" class="c-badge" value="${escAttr(badgeInit)}" placeholder="${type === 'cruise-coklu' ? 'Örn: YILBAŞI ÖZEL / VİZESİZ / 2. KİŞİYE %50' : 'Örn: ERKEN REZERVASYON / SON ODALAR'}">
         </div>
       </div>
     </div>`; 
@@ -2261,6 +2503,8 @@ img{border:0;display:block;outline:none;text-decoration:none;height:auto;line-he
   .header-right{padding-top:10px !important;text-align:center !important;}
   .mobile-img-full{width:100% !important;max-width:100% !important;height:auto !important;box-sizing:border-box;margin:0 auto !important;}
   .grid-img{height: 55vw !important; max-height: 320px !important; object-fit: cover !important;}
+  .cruise-meta-cell{display:block !important;width:100% !important;border-right:0 !important;border-top:1px solid ${cBorder} !important;padding:9px 0 !important;}
+  .cruise-meta-cell-first{border-top:0 !important;}
 }
 @media only screen and (max-width:480px){
   .mobile-hide{display:none !important;}
@@ -2395,14 +2639,99 @@ ${preheaderBlock}
       </td>`;
   }
 
+  function formatCruiseRoute(routeStr) {
+    if (!routeStr) return '';
+    const ports = routeStr.split(/[•,→]+/).map(s => s.trim()).filter(Boolean);
+    if (ports.length <= 1) return routeStr;
+    return ports.join(` <span style="color:${cMain}; font-weight:700;">&rarr;</span> `);
+  }
+
+  function renderCruiseGridCard(card, dVal, cVal) {
+    const sBas = card.querySelector('.c-show-baslik')?.checked ?? true;
+    const sGemi = card.querySelector('.c-show-gemi')?.checked ?? true;
+    const sTarih = card.querySelector('.c-show-tarih')?.checked ?? true;
+    const sSure = card.querySelector('.c-show-sure')?.checked ?? true;
+    const sRota = card.querySelector('.c-show-rota')?.checked ?? true;
+    const sAlt = card.querySelector('.c-show-alt')?.checked ?? true;
+    const sOz = card.querySelector('.c-show-oz')?.checked ?? true;
+    const sBtn = card.querySelector('.c-show-btn')?.checked ?? true;
+    const sImg = card.querySelector('.c-show-img')?.checked ?? true;
+    const sBadge = card.querySelector('.c-show-badge')?.checked ?? false;
+
+    const badgeVal = card.querySelector('.c-badge')?.value?.trim() || '';
+    const baslikVal = card.querySelector('.c-baslik')?.value?.trim() || '';
+    const gemiVal = card.querySelector('.c-gemi')?.value?.trim() || '';
+    const tarihVal = card.querySelector('.c-tarih')?.value?.trim() || '';
+    const sureVal = card.querySelector('.c-sure')?.value?.trim() || '';
+    const rotaVal = card.querySelector('.c-rota')?.value?.trim() || '';
+    const altVal = card.querySelector('.c-alt')?.value?.trim() || '';
+
+    const rawCardUrl = card.querySelector('.c-url')?.value?.trim() || 'https://www.etstur.com/Cruise-Gemi-Turlari';
+    const url = escLink(buildUTMETS(rawCardUrl, dVal, cVal));
+    const btn = card.querySelector('.c-btn')?.value || 'TURU İNCELE';
+    const cardTitleText = baslikVal || 'Etstur Cruise Turu';
+
+    const btnHTML = sBtn ? `<table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; margin-top:12px;"><tbody><tr><td align="center" bgcolor="${cMain}" style="border-radius:${cBtnRad}px; display:block;"><a href="${url}" style="font-size:13px; font-weight:bold; font-family:${cFont}; text-decoration:none; line-height:1.2; color:#ffffff; display:inline-block; padding:10px 22px; border-radius:${cBtnRad}px; background-color:${cMain}; border:1px solid ${cMain};" target="_blank">${btn}</a></td></tr></tbody></table>` : '';
+
+    let priceHTML = '';
+    const fTip = card.querySelector('.c-fiyat-tipi')?.value || 'fiyat';
+    const fCur = card.querySelector('.c-currency')?.value || 'EUR';
+    const fVal = card.querySelector('.c-fiyat')?.value?.trim() || '';
+    const fEk = card.querySelector('.c-fiyat-ek')?.value || '';
+    if (fTip === 'fiyat' && fVal) {
+      priceHTML = `<div style="margin:10px 0 0 0; text-align:center;"><span style="font-weight:800;color:${cPrice};font-size:21px;font-family:${cFont};">${fVal} ${fCur}</span><br><span style="font-size:12px;color:#888888;font-weight:500;font-family:${cFont};">${fEk}</span></div>`;
+    } else if (fTip === 'indirim' && fVal) {
+      priceHTML = `<table align="center" border="0" cellpadding="0" cellspacing="0" style="display:inline-block;vertical-align:middle;margin:10px 0 0 0;"><tbody><tr><td bgcolor="${cPrice}" style="padding:6px 14px;border-radius:20px;color:#ffffff;height:36px;white-space:nowrap;"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td align="right" style="font-size:18px;font-weight:800;line-height:18px;color:#ffffff;font-family:${cFont};" valign="middle">${fVal}</td><td align="left" style="font-size:11px;font-weight:600;line-height:11px;color:#ffffff;padding-left:3px;font-family:${cFont};" valign="middle">${fEk}</td></tr></tbody></table></td></tr></tbody></table>`;
+    }
+
+    const metaParts = [];
+    if (sTarih && tarihVal) metaParts.push(tarihVal);
+    if (sSure && sureVal) metaParts.push(sureVal);
+    const metaHTML = metaParts.length ? `<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin:10px 0; border-top:1px solid ${cBorder}; border-bottom:1px solid ${cBorder};"><tbody><tr><td align="center" style="padding:7px 4px; font-size:11.5px; color:${cTitle}; font-weight:700; line-height:1.4; font-family:${cFont};">${metaParts.join(` &nbsp;<span style="color:${cMain}; font-weight:700;">•</span>&nbsp; `)}</td></tr></tbody></table>` : '';
+
+    const rotaHTML = (sRota && rotaVal) ? `<p style="margin:0 0 8px 0; color:${cText}; font-size:11.5px; line-height:1.5; font-family:${cFont};">${formatCruiseRoute(rotaVal)}</p>` : '';
+
+    const ozArr = [card.querySelector('.c-oz1')?.value, card.querySelector('.c-oz2')?.value, card.querySelector('.c-oz3')?.value].filter(Boolean);
+    const ozHTML = (sOz && ozArr.length) ? `<p style="margin:0 0 8px 0;color:#888888;font-size:11px;font-weight:600;line-height:1.4;font-family:${cFont};">${ozArr.join(` &nbsp;<span style="color:${cMain};">•</span>&nbsp; `)}</p>` : '';
+
+    const badgeHTML = (sBadge && badgeVal) ? `<div style="margin-bottom:8px;"><span style="display:inline-block; background-color:${cMain}; color:#ffffff; font-size:10px; font-weight:700; padding:3px 10px; border-radius:12px; letter-spacing:0.6px; text-transform:uppercase; font-family:${cFont};">${badgeVal}</span></div>` : '';
+
+    return `
+      <td width="48%" align="center" valign="top" class="stack-column" style="padding-bottom:20px;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border:1px solid ${cBorder}; border-radius:${cRad}px; background-color:${cCardBg}; overflow:hidden;">
+          <tbody>
+            <tr>
+              <td align="center">${sImg ? `<a href="${url}" target="_blank" style="display:block; font-size:0; line-height:0;"><img alt="${cardTitleText}" class="grid-img" src="${card.querySelector('.c-img').value}" style="width:100%; height:170px; object-fit:cover; display:block; border:0; margin:0; border-radius:${cRad}px ${cRad}px 0 0;" width="260" height="170" /></a>` : ''}</td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:16px 14px 20px 14px;">
+                ${badgeHTML}
+                ${sGemi && gemiVal ? `<div style="margin:0 0 5px 0;font-size:11px;color:${cMain};font-weight:800;text-transform:uppercase;letter-spacing:1.2px;font-family:${cFont};">${gemiVal}</div>` : ''}
+                ${sBas && baslikVal ? `<h3 style="margin:0 0 4px 0;font-size:15px;color:${cTitle};font-weight:800;line-height:1.3;font-family:${cFont};"><a href="${url}" target="_blank" style="color:${cTitle};text-decoration:none;">${baslikVal}</a></h3>` : ''}
+                ${sAlt && altVal ? `<div style="margin:2px 0 0 0;font-size:11.5px;color:#888888;font-weight:500;font-family:${cFont};">${altVal}</div>` : ''}
+                ${metaHTML}
+                ${rotaHTML}
+                ${ozHTML}
+                ${priceHTML}${btnHTML}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>`;
+  }
+
   function getGridHTML(type, dVal, cVal) {
     let output = `<tr><td class="mobile-padding" style="padding:10px 40px 20px 40px;"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody>`;
     const cards = document.querySelectorAll(`#list-${type} .dynamic-card`);
     for(let i=0; i<cards.length; i+=2) {
       output += `<tr>`;
-      output += renderGridCard(cards[i], dVal, cVal);
-      if(cards[i+1]) { output += `<td width="4%" class="mobile-hide">&nbsp;</td>`; output += renderGridCard(cards[i+1], dVal, cVal); }
-      else { output += `<td width="4%" class="mobile-hide">&nbsp;</td><td width="48%" class="stack-column mobile-hide">&nbsp;</td>`; }
+      output += (type === 'cruise-coklu' ? renderCruiseGridCard(cards[i], dVal, cVal) : renderGridCard(cards[i], dVal, cVal));
+      if(cards[i+1]) {
+        output += `<td width="4%" class="mobile-hide">&nbsp;</td>`;
+        output += (type === 'cruise-coklu' ? renderCruiseGridCard(cards[i+1], dVal, cVal) : renderGridCard(cards[i+1], dVal, cVal));
+      } else {
+        output += `<td width="4%" class="mobile-hide">&nbsp;</td><td width="48%" class="stack-column mobile-hide">&nbsp;</td>`;
+      }
       output += `</tr>`;
     }
     output += `</tbody></table></td></tr>`;
@@ -2498,6 +2827,116 @@ ${preheaderBlock}
     if(isCh('show-ec-baslik')) p1 += `<h2 style="margin:0 0 15px 0;font-size:26px;font-weight:800;color:${cTitle};text-align:center;font-family:${cFont};">${v('ec-baslik')}</h2>`;
     if(isCh('show-ec-metin')) p1 += `<p style="margin:0;font-size:16px;line-height:1.7;color:${cText};text-align:center;font-family:${cFont};">${v('ec-metin')}</p>`;
     p1 += `</td></tr>` + getGridHTML('etkinlik-coklu', dateVal, campVal);
+  }
+  else if (effectiveMode === 'ets-cruise-tekli') {
+    const url = escLink(buildUTMETS(v('ct-url'), dateVal, campVal));
+    const ozArr = [v('ct-oz1'), v('ct-oz2'), v('ct-oz3')].filter(Boolean);
+    const ozStr = ozArr.join(` &nbsp;&nbsp;<span style="color:${cMain}; font-weight:bold;">•</span>&nbsp;&nbsp; `);
+
+    const stripItems = [];
+    if (isCh('show-ct-tarih') && v('ct-tarih')) stripItems.push({ label: 'TARİH', val: v('ct-tarih') });
+    if (isCh('show-ct-sure') && v('ct-sure')) stripItems.push({ label: 'SÜRE', val: v('ct-sure') });
+    if (isCh('show-ct-kons') && v('ct-kons')) stripItems.push({ label: 'KONSEPT', val: v('ct-kons') });
+
+    p1 += `<tr><td class="mobile-padding" data-ets-mode="cruise-tekli" style="padding:32px 40px 10px 40px;"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody>`;
+
+    // 1. Gemi Adı (Minimalist Editorial Eyebrow)
+    if (isCh('show-ct-gemi') && v('ct-gemi')) {
+      p1 += `<tr><td align="center" style="padding-bottom:8px;"><div style="font-size:12px; font-weight:800; color:${cMain}; letter-spacing:2px; text-transform:uppercase; font-family:${cFont};">${v('ct-gemi')}</div></td></tr>`;
+    }
+
+    // 2. Tur Adı (Ana Başlık)
+    if (isCh('show-ct-isim') && v('ct-isim')) {
+      p1 += `<tr><td align="center"><h1 style="margin:0;color:${cTitle};font-size:26px;font-weight:800;line-height:1.25;letter-spacing:-0.3px;font-family:${cFont};"><a href="${url}" style="color:${cTitle};text-decoration:none;">${v('ct-isim')}</a></h1></td></tr>`;
+    }
+
+    // 3. Kalkış & Ulaşım (Alt Satır)
+    if (isCh('show-ct-kalkis') && v('ct-kalkis')) {
+      p1 += `<tr><td align="center" style="padding-top:8px;"><div style="font-size:14px; font-weight:600; color:#888888; font-family:${cFont};">${v('ct-kalkis')}</div></td></tr>`;
+    }
+
+    // 4. İnce Çizgili Yatay Bilgi Şeridi (Tarih | Süre | Konsept - Gri Kutu & Emoji Yok)
+    if (stripItems.length > 0) {
+      const colW = Math.floor(100 / stripItems.length);
+      p1 += `<tr><td align="center" style="padding-top:20px; padding-bottom:18px;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid ${cBorder}; border-bottom:1px solid ${cBorder};">
+          <tbody>
+            <tr>`;
+      stripItems.forEach((item, idx) => {
+        const isLast = idx === stripItems.length - 1;
+        const firstCls = idx === 0 ? ' cruise-meta-cell-first' : '';
+        const rightBorder = !isLast ? `border-right:1px solid ${cBorder};` : '';
+        p1 += `<td width="${colW}%" align="center" valign="middle" class="cruise-meta-cell${firstCls}" style="padding:13px 10px; ${rightBorder} font-family:${cFont};">
+          <div style="font-size:10px; font-weight:700; color:#999999; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:4px;">${item.label}</div>
+          <div style="font-size:13px; font-weight:700; color:${cTitle}; line-height:1.3;">${item.val}</div>
+        </td>`;
+      });
+      p1 += `</tr>
+          </tbody>
+        </table>
+      </td></tr>`;
+    }
+
+    // 5. Güzergah / Rota Akışı (Kutusuz, Ferah Ok Akışlı)
+    if (isCh('show-ct-rota') && v('ct-rota')) {
+      p1 += `<tr><td align="center" style="padding-bottom:14px;">
+        <div style="font-size:10px; font-weight:800; color:${cMain}; letter-spacing:1.6px; text-transform:uppercase; margin-bottom:5px; font-family:${cFont};">GÜZERGAH</div>
+        <div style="font-size:13px; line-height:1.65; color:${cText}; font-weight:500; font-family:${cFont};">${formatCruiseRoute(v('ct-rota'))}</div>
+      </td></tr>`;
+    }
+
+    // 6. Öne Çıkan Özellikler (Tek Otel çizgisinde sade ve dengeli)
+    if (isCh('show-ct-oz') && ozStr) {
+      p1 += `<tr><td align="center" style="padding-bottom:6px;"><p style="margin:0;color:#888888;font-size:12.5px;font-weight:500;line-height:1.5;font-family:${cFont};">${ozStr}</p></td></tr>`;
+    }
+
+    // 7. Kampanya Rozeti & Fiyat
+    const fTip = v('ct-fiyat-tipi'), fCur = v('ct-currency') || 'EUR', fVal = v('ct-fiyat'), fEk = v('ct-fiyat-ek');
+    if (fTip !== 'gizle') {
+      p1 += `<tr><td align="center" style="padding-top:16px; padding-bottom:6px; text-align:center;">`;
+      if (fTip === 'indirim') {
+        if (isCh('show-ct-badge') && v('ct-badge')) {
+          p1 += `<table align="center" border="0" cellpadding="0" cellspacing="0" style="display:inline-block;vertical-align:middle;margin:0 5px 10px 5px;"><tbody><tr><td bgcolor="${cMain}" style="padding:10px 16px;border-radius:20px;font-size:14px;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.6px;height:36px;line-height:16px;white-space:nowrap;font-family:${cFont};">${v('ct-badge')}</td></tr></tbody></table>`;
+        }
+        p1 += `<table align="center" border="0" cellpadding="0" cellspacing="0" style="display:inline-block;vertical-align:middle;margin:0 5px 10px 5px;"><tbody><tr><td bgcolor="${cPrice}" style="padding:6px 16px;border-radius:20px;color:#ffffff;height:44px;white-space:nowrap;"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td align="right" style="font-size:24px;font-weight:800;line-height:24px;color:#ffffff;font-family:${cFont};" valign="middle">${fVal}</td><td align="left" style="font-size:13px;font-weight:600;line-height:13px;color:#ffffff;padding-left:3px;font-family:${cFont};" valign="middle">${fEk}</td></tr></tbody></table></td></tr></tbody></table>`;
+      } else {
+        if (isCh('show-ct-badge') && v('ct-badge')) {
+          p1 += `<div style="margin-bottom:10px;"><span style="display:inline-block; background-color:${cMain}; color:#ffffff; font-size:11px; font-weight:700; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:0.8px; font-family:${cFont};">${v('ct-badge')}</span></div>`;
+        }
+        if (fVal) {
+          p1 += `<div style="margin-bottom:4px; text-align:center;"><span style="font-weight:800;color:${cPrice};font-size:30px;letter-spacing:-0.5px;font-family:${cFont};">${fVal} ${fCur}</span><span style="font-size:14px;color:#888888;font-weight:500; margin-left:6px;font-family:${cFont};">${fEk}</span></div>`;
+        }
+        if (isCh('show-ct-fiyat-not') && v('ct-fiyat-not')) {
+          p1 += `<div style="font-size:12px; color:#999999; margin-bottom:4px; font-family:${cFont};">${v('ct-fiyat-not')}</div>`;
+        }
+      }
+      p1 += `</td></tr>`;
+    }
+    p1 += `</tbody></table></td></tr>`;
+
+    if (isCh('show-ct-img')) {
+      p1 += `<tr><td align="center" class="mobile-padding" style="padding:12px 40px 20px 40px;"><a href="${url}" style="text-decoration:none;display:block;" target="_blank"><img alt="${v('ct-isim') || 'Cruise Turu Görseli'}" class="mobile-img-full" src="${v('ct-img')}" style="width: 100%; max-width: 520px; height: auto; border-radius: ${cRad}px; border: 0px; margin: 0px auto;" width="520" /></a></td></tr>`;
+    }
+    p1 += `<tr><td align="center" class="mobile-padding" style="padding:10px 40px 40px 40px;">`;
+    if (isCh('show-ct-baslik')) p1 += `<h2 style="margin:0 0 15px 0;font-size:24px;font-weight:700;line-height:1.25;font-family:${cFont};"><a href="${url}" style="color:${cTitle};text-decoration:none;">${v('ct-baslik')}</a></h2>`;
+    if (isCh('show-ct-metin')) p1 += `<p style="margin:0 0 30px 0;font-size:16px;line-height:1.7;font-family:${cFont};"><a href="${url}" style="color:${cText};text-decoration:none;">${v('ct-metin')}</a></p>`;
+    if (isCh('show-ct-btn')) p1 += `&nbsp;` + btnHTMLMain(url, v('ct-btn'));
+    p1 += `</td></tr>`;
+
+    if (isCh('show-ct-banner') && (v('ct-img-desk') || v('ct-img-mob'))) {
+      const altBUrl = v('ct-img-url') ? escLink(buildUTMETS(v('ct-img-url'), dateVal, campVal, 'Banner')) : '#';
+      p1 += `<tr><td align="center" class="mobile-padding" style="padding:0 40px 20px 40px;"><a href="${altBUrl}" style="text-decoration:none;display:block;" target="_blank">${v('ct-img-desk')?`<img alt="Kampanya Görseli" class="desktop-image mobile-img-full" src="${v('ct-img-desk')}" style="border-radius: ${cRad}px; width: 100%; max-width: 520px; height: auto; border: 0px; margin: 0px auto;" width="520" />`:''}</a>${v('ct-img-mob')?`<div class="mobile-image" style="display:none;width:0;height:0;overflow:hidden;font-size:0;line-height:0;"><a href="${altBUrl}" style="text-decoration:none;display:block;" target="_blank"><img alt="Kampanya Görseli Mobil" class="mobile-img-full" src="${v('ct-img-mob')}" style="border-radius: ${cRad}px; width: 100%; max-width: 520px; height: auto; border: 0px; margin: 0px auto;" width="100" /></a></div>`:''}</td></tr>`;
+    }
+  }
+  else if (effectiveMode === 'ets-cruise-coklu') {
+    p1 += `<tr><td align="center" class="mobile-padding" data-ets-mode="cruise-coklu" style="padding:40px 40px 10px 40px;">`;
+    if (isCh('show-cc-baslik')) p1 += `<h2 style="margin:0 0 15px 0;font-size:26px;font-weight:800;color:${cTitle};text-align:center;font-family:${cFont};">${v('cc-baslik')}</h2>`;
+    if (isCh('show-cc-metin')) p1 += `<p style="margin:0;font-size:16px;line-height:1.7;color:${cText};text-align:center;font-family:${cFont};">${v('cc-metin')}</p>`;
+    p1 += `</td></tr>` + getGridHTML('cruise-coklu', dateVal, campVal);
+    if (isCh('show-cc-all-btn') && v('cc-all-btn')) {
+      const allUrl = escLink(buildUTMETS(v('cc-all-url') || 'https://www.etstur.com/Cruise-Gemi-Turlari', dateVal, campVal, 'tum-cruise-turlari'));
+      p1 += `<tr><td align="center" class="mobile-padding" style="padding:5px 40px 30px 40px;">` + btnHTMLMain(allUrl, v('cc-all-btn')) + `</td></tr>`;
+    }
   }
 
   let finalHTML = headStyle + buildHeaderBlock() + p1 + footerStyle;
@@ -3054,6 +3493,22 @@ function parseETSHTML(doc, rawHTML, isOverlayOnState) {
         setFieldVal('g-img-ucak', ucakImg.getAttribute('src').trim());
     }
 
+    // Tekli / Çoklu Cruise modu tespiti
+    if (doc.querySelector('[data-ets-mode="cruise-tekli"]')) {
+        if (foundDate) setFieldVal('ct-date', foundDate);
+        if (foundCamp) setFieldVal('ct-camp', foundCamp);
+        const cH1 = doc.querySelector('.container h1');
+        if (cH1) { setCheckVal('show-ct-isim', true); setFieldVal('ct-isim', cH1.textContent.trim()); }
+        activateBrandAndTabUI('ets', 'ets-cruise-tekli');
+        return true;
+    }
+    if (doc.querySelector('[data-ets-mode="cruise-coklu"]')) {
+        if (foundDate) setFieldVal('cc-date', foundDate);
+        if (foundCamp) setFieldVal('cc-camp', foundCamp);
+        activateBrandAndTabUI('ets', 'ets-cruise-coklu');
+        return true;
+    }
+
     // Tekli Otel modu tespiti (h1 varsa)
     const h1El = doc.querySelector('.container h1');
     if (h1El) {
@@ -3504,6 +3959,7 @@ async function loadUserWorkspaceFromCloud(userName) {
             localStorage.setItem('multiEditorState', JSON.stringify(data.state));
             localStorage.setItem('multiEditorPresets', JSON.stringify(data.presets || []));
             loadState();
+            ensureDefaultCruiseCards();
             enhanceEditorInputs();
             refreshAllThumbnails();
             setBrand(activeBrand);
